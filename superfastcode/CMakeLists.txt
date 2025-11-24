@@ -7,6 +7,9 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 # Include Eigen headers
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
+# Optimization flags
+set(CMAKE_BUILD_TYPE Release)
+
 # Find Python and pybind11
 find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
 find_package(pybind11 REQUIRED)
