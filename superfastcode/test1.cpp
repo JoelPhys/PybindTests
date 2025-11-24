@@ -3,7 +3,6 @@
 #include <pybind11/numpy.h>
 #include <pybind11/stl.h>
 
-#include <Windows.h>
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include "./Eigen/Dense"
@@ -14,6 +13,7 @@
 #include <array>
 #include <iostream>
 #include <vector>
+#include <iomanip>
 #include <chrono>
 #include "eigen_types.h"
 #include "render.h"
@@ -33,7 +33,28 @@ void render_scene(const int image_height,
 
     size_t num_cameras = camera_centers.size();
 
-    // Iterate over all cameras and render an image for each
+    using namespace std::chrono;
+
+
+    auto now = std::chrono::system_clock::now();
+    auto tt  = std::chrono::system_clock::to_time_t(now);
+
+    // thread-safe localtime
+    std::tm tm;
+    #ifdef _WIN32
+    localtime_s(&tm, &tt);
+    #else
+    localtime_r(&tt, &tm);
+    #endif
+
+    int cs = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch())
+                .count() % 1000 / 10;
+
+    std::cout << std::put_time(&tm, "%H:%M:%S")
+            << "." << std::setw(2) << std::setfill('0') << cs
+            << "\n";
+
+
     for (size_t camera_idx = 0; camera_idx < num_cameras; ++camera_idx) {
         Eigen::Ref<const EiVector3d> camera_center = camera_centers[camera_idx];
         Eigen::Ref<const EiVector3d> pixel_00_center = pixel_00_centers[camera_idx];

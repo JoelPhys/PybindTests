@@ -47,4 +47,8 @@ add_mesh_to_scene(scene, data_path)
 #print(scene.scene_face_colors[0].shape)
 #print(scene.scene_face_colors)
 from superfastcode import cpp_render_scene
+from datetime import datetime
+
+now = datetime.now()
+print(now.strftime("%Y-%m-%d %H:%M:%S.%f")[:-4])
 print(timeit.timeit("cpp_render_scene(image_height, image_width, number_of_samples, scene.scene_connectivity, scene.scene_coords, scene.scene_face_colors, scene.scene_camera_center, scene.scene_pixel_00_center, scene.scene_matrix_pixel_spacing)", globals=globals(), number=1))
