@@ -28,9 +28,17 @@ target_link_libraries(superfastcode
         Python3::Python
 )
 
-# Ensure the output is a proper Python extension (no "lib" prefix)
-set_target_properties(superfastcode PROPERTIES
-    PREFIX ""         # produces superfastcode.so instead of libsuperfastcode.so
-    SUFFIX ".so"      # ensure correct extension for Python modules
-)
-
+# Ensure the output is a proper Python extension
+if(WIN32)
+    # Windows needs .pyd
+    set_target_properties(superfastcode PROPERTIES
+        PREFIX ""         # removes "lib" prefix
+        SUFFIX ".pyd"
+    )
+else()
+    # Linux/macOS
+    set_target_properties(superfastcode PROPERTIES
+        PREFIX ""         # removes "lib" prefix
+        SUFFIX ".so"
+    )
+endif()

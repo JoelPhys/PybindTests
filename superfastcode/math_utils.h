@@ -1,8 +1,7 @@
 #pragma once // Header guard instead of ifndef
-
+#define _USE_MATH_DEFINES
 #include <cmath>
 #include <random>
-#define _USE_MATH_DEFINES
 #include "eigen_types.h"
 
 inline double degreesToRadians(double angleDeg) {
